@@ -15,3 +15,4 @@ catch (error)
   let txt = Screen.FindItem("Text_1").Text ;  
   Screen.FindItem("Text_1").Text = txt + "\r\n" + error;  
 }  
+![image](https://github.com/user-attachments/assets/9886d350-4c5c-4c3e-99ef-fdd05eb99cef)
