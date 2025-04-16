@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang='en'>
+
+<head>
+	<meta charset='utf-8'>
+	<title>Project</title>       <!-- TS5 TabTitle -->
+	<meta name='viewport' content='width=device-width, initial-scale=1.0'>
+	<link rel='stylesheet' href='./styles.css' />
+	<script src='./js/webcc.min.js'></script>
+</head>
+<body>
+	<h1>Ask GPT-4</h1>
+    <label for="inputText">Enter your text:</label>
+    <input type="text" id="inputPrompt" placeholder="Type something..." />
+    <button onclick="handleGetResponse()">Submit</button>
+    <pre id="output"></pre> <!-- Kết quả sẽ hiển thị ở đây -->
+	<a id="aDownload"></a>
+
+	<script>
+			const windowObjectReference = [];
+			//Call ChatGPT API
+			async function getOpenAIResponse1(prompt) {
+				const apiKey = ''; 
+				const requestBody = {
+					model: 'gpt-4o-mini',
+					messages: [{ role: 'user', content: prompt }],
+					max_tokens: 500,
+					response_format: {type: 'json_object'} , // dạng Json trả về
+				};
+				try {
+					const response = await fetch('https://api.openai.com/v1/chat/completions', {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+							'Authorization': `Bearer ${apiKey}`,
+						},
+						body: JSON.stringify(requestBody),
+					});
+					//console.log('📡 Fetch response:', response);
+					if (!response.ok) {
+						throw new Error(`HTTP error! Status: ${response.status}`);
+					}
+					const data = await response.json();
+					//console.log('📦 Raw data from API:', data);
+					//return data.choices[0].message.content;
+					try {
+						const jsonContent = JSON.parse(data.choices[0].message.content);
+						//console.log('✅ Parsed JSON content:', jsonContent);
+						return jsonContent;
+					} catch (parseError) {
+						console.error('🚨 JSON parsing failed:', parseError.message);
+						return null;
+					}
+				} catch (error) {
+					console.error('Error calling OpenAI API:', error);    
+					return null;
+				}
+			}
+
+			async function getOpenAIResponse(prompt) {
+	const apiKey = ''; // <-- Thay bằng API Key của bạn
+
+	const requestBody = {
+		model: 'gpt-4o-mini',
+		messages: [{ role: 'user', content: prompt }],
+		max_tokens: 500
+	};
+
+	try {
+		const response = await fetch('https://api.openai.com/v1/chat/completions', {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json',
+				'Authorization': `Bearer ${apiKey}`,
+			},
+			body: JSON.stringify(requestBody),
+		});
+
+		if (!response.ok) {
+			throw new Error(`HTTP error! Status: ${response.status}`);
+		}
+
+		const data = await response.json();
+		const content = data.choices[0].message.content;
+		// Trả về kết quả dưới dạng chuỗi text
+		return content;
+
+	} catch (error) {
+		console.error('❌ Error calling OpenAI API:', error);
+		return null;
+	}
+}
+
+			function handleGetResponse() {
+				const inputPrompt = document.getElementById('inputPrompt').value; 
+				getOpenAIResponse(inputPrompt)
+				.then(response => {
+					// Hiển thị kết quả trong phần tử 'output'
+					document.getElementById('output').textContent = JSON.stringify(response, null, 2);
+				})
+				.catch(error => {
+					// Hiển thị lỗi trong phần tử 'output'
+					document.getElementById('output').textContent = error;
+				});
+			}
+
+			function onPropertyChanged(data) {
+				if (data.key === 'TabTitle') {
+					parent.document.title = data.value;
+				}
+			}
+			// Initialize the custom control
+			WebCC.start(
+				// callback
+				function (result) {
+					if (result) {
+						console.log("connected successfully")					
+						WebCC.Events.fire('Url', parent.window.location.href);
+						onPropertyChanged({ key: 'TabTitle', value: WebCC.Properties.TabTitle })
+						WebCC.onPropertyChanged.subscribe(onPropertyChanged);
+					}
+					else {
+						console.log("connection failed")
+					}
+				},
+				// contract
+				{
+					methods: {				
+						getOpenAIResponse: getOpenAIResponse,			
+					},
+					//Events
+					events: ['Url'],
+					//Properties
+					//////////
+					properties: {
+						TabTitle: "WinCC Unified RT"
+					}
+				},
+				// extensions
+				['HMI'],
+				// timeout
+				10000
+			);
+
+		</script>
+
+	</div>
+</body>
+
+</html>

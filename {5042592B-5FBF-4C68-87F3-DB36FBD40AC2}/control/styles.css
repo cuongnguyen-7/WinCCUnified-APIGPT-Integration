@@ -1,0 +1,85 @@
+/* Đặt font cho toàn bộ trang */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    flex-direction: column;
+}
+
+/* Phần tiêu đề */
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+/* Định dạng cho label */
+label {
+    font-size: 18px;
+    margin-bottom: 8px;
+    display: block;
+    text-align: center;
+}
+
+/* Định dạng cho input */
+#inputPrompt {
+    padding: 10px;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Định dạng cho button */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    display: block;
+    margin: 10px auto;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Định dạng cho phần output */
+pre {
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    width: 100%;
+    max-width: 600px;
+    overflow-x: auto;
+    margin-top: 20px;
+    text-align: center;
+    font-size: 16px;
+}
+
+/* Link tải */
+#aDownload {
+    display: none;
+    margin-top: 10px;
+    font-size: 14px;
+    color: #4CAF50;
+    text-decoration: none;
+    text-align: center;
+}
+
+#aDownload:hover {
+    text-decoration: underline;
+}

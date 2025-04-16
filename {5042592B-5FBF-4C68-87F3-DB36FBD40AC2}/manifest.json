@@ -1,0 +1,63 @@
+{
+	"mver": "1.2.0",
+	"control": {
+		"identity": {
+			"name": "API Integration",
+			"version": "1.0",
+			"displayname": "API Integration",
+			"icon": "./assets/logo.ico",
+			"type": "guid://5042592B-5FBF-4C68-87F3-DB36FBD40AC2",
+			"start": "./control/index.html"
+		},
+		"environment": {
+			"extensions": {
+			  "HMI": {
+				"mandatory": true,
+				"version": "~1.0.0"
+			  }
+			}
+		  },
+		  "metadata": {
+			"author": "cuongnguyen",
+			"keywords": [
+			  "toolbox",
+			  "tool",
+			  "tab"
+			]
+		  },
+		  "contracts": {
+			"api": {
+			  "methods": {
+				"getOpenAIResponse": {
+				"parameters": {
+					"prompt": {
+						"type": "string"
+					}
+				},
+				"description": "ask gpt"
+			}
+			  },
+			  "events": {
+				
+				  "Url": {
+					  "arguments": {
+						  "url": {
+							  "type": "string"
+						  }
+					  },
+					  "description": "gets triggered on load"
+				  }				
+			  },
+	  
+			  "properties": {
+						  "TabTitle": {
+								  "type": "string",
+								  "default": "WinCC Unified RT - SCADA"
+						  }
+			  }
+			}
+		  },
+		  "types": {
+		  }
+		}
+	  }
